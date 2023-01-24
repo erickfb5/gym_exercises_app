@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Box } from "@mui/material";
 
 import { HeroBanner, Exercises, SearchExercises } from "../components";
