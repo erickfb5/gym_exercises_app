@@ -1,5 +1,5 @@
 
-const BodyPart = () => {
+const BodyPart = ({item, bodyPart, setBodyPart}) => {
   return (
     <div>
       BodyPart
