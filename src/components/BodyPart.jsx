@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 
-import { exercisesImages} from "../assets/images/";
+import { exercisesImages} from "../utils/exercisesImages";
 
 const BodyPart = ({ item, bodyPart, setBodyPart }) => {
   return (
