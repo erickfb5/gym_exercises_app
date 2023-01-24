@@ -1,19 +1,23 @@
-import { Box } from "@mui/material"
+import { Box } from "@mui/material";
+import { useState } from "react";
+import { BodyPart } from "./";
 
-const HorizontalScrollBar = ({data}) => {
+const HorizontalScrollBar = ({ data }) => {
+  const [bodyPart, setBodyPart] = useState([])
   return (
     <div>
       {data.map((item) => (
         <Box
-        key={item.id || item}
-        itemId={item.id || item}
-        title={item.id || item}
-        m='0 40px'
-        >{item}
+          key={item.id || item}
+          itemId={item.id || item}
+          title={item.id || item}
+          m="0 40px"
+        >
+          <BodyPart item={item} bodyPart={bodyPart} setBodyPart={setBodyPart} />
         </Box>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default HorizontalScrollBar
+export default HorizontalScrollBar;
