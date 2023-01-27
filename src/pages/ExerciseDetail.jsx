@@ -21,7 +21,6 @@ const ExerciseDetail = () => {
           `${exerciseDbUrl}/exercises/exercise/${id}`,
           exerciseOptions
         );
-        console.log(exerciseDetailData);
         setExerciseDetail(exerciseDetailData);
       };
       fetchExercisesData();
