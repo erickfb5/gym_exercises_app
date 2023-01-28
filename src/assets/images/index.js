@@ -11,3 +11,4 @@ export{ default as upperLegs} from "./upperLegs.png";
 export{ default as waist} from "./waist.png";
 
 
+export{ default as logoOne} from "./Logo-1.png";
