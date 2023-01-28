@@ -12,7 +12,7 @@ const ExtraDetail = ({ exerciseDetail }) => {
     { icon: EquipmentImage, name: equipment },
   ];
 
-  return extraDetails.map((item) => (
+  return extraDetails?.map((item) => (
     <Stack key={item.name} direction="row" gap="24px" alignItems="center">
       <Button
         sx={{
@@ -28,7 +28,7 @@ const ExtraDetail = ({ exerciseDetail }) => {
           style={{ width: "50px", height: "50px" }}
         />
       </Button>
-      <Typography variant="h5">{item.name}</Typography>
+      <Typography variant="h5" textTransform='capitalize'>{item.name}</Typography>
     </Stack>
   ));
 };

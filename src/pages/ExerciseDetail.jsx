@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Detail, ExerciseVideos, SimilarExercises } from "../components/";
-import { exerciseOptions, fetchData } from "../utils/fetchData";
+import { exerciseOptions, fetchData, youtubeOptions } from "../utils/fetchData";
 
 const ExerciseDetail = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
-
+  const [exerciseVideos, setExerciseVideos] = useState([]);
+  const [targetMuscleExercises, setTargetMuscleExercises] = useState([]);
+  const [equipmentExercises, setEquipmentExercises] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -22,18 +24,42 @@ const ExerciseDetail = () => {
           exerciseOptions
         );
         setExerciseDetail(exerciseDetailData);
+
+        const exerciseVideoData = await fetchData(
+          `${youtubeSearchUrl}/search?query=${exerciseDetail.name}`,
+          youtubeOptions
+        );
+        setExerciseVideos(exerciseVideoData);
+
+        const targetMuscleExercisesData = await fetchData(
+          `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,
+          exerciseOptions
+        );
+        setTargetMuscleExercises(targetMuscleExercisesData);
+
+        const equipmentExercisesData = await fetchData(
+          `${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`,
+          exerciseOptions
+        );
+        setEquipmentExercises(equipmentExercisesData);
       };
       fetchExercisesData();
     } catch (error) {
       console.log(error);
     }
-  }, [id]);
+  }, [id, exerciseDetail]);
 
   return (
     <Box>
       <Detail exerciseDetail={exerciseDetail} />
-      <ExerciseVideos />
-      <SimilarExercises />
+      <ExerciseVideos
+        exerciseVideos={exerciseVideos}
+        name={exerciseDetail.name}
+      />
+      <SimilarExercises
+        targetMuscleExercises={targetMuscleExercises}
+        equipmentExercises={equipmentExercises}
+      />
     </Box>
   );
 };
