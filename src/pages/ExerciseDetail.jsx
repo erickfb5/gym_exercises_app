@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { Detail, ExerciseVideos, SimilarExercises } from "../components/";
 import { exerciseOptions, fetchData, youtubeOptions } from "../utils/fetchData";
+// import { youtubeAPI } from "../utils/fakeAPI";
 
 const ExerciseDetail = () => {
   const [exerciseDetail, setExerciseDetail] = useState({});
@@ -12,42 +13,47 @@ const ExerciseDetail = () => {
   const [equipmentExercises, setEquipmentExercises] = useState([]);
   const { id } = useParams();
 
-  useEffect(() => {
+  const exerciseDbUrl = "https://exercisedb.p.rapidapi.com";
+  const youtubeSearchUrl = "https://youtube-search-and-download.p.rapidapi.com";
+
+  const fetchExercisesData = useCallback(async () => {
     try {
-      const fetchExercisesData = async () => {
-        const exerciseDbUrl = "https://exercisedb.p.rapidapi.com";
-        const youtubeSearchUrl =
-          "https://youtube-search-and-download.p.rapidapi.com";
+      const exerciseDetailData = await fetchData(
+        `${exerciseDbUrl}/exercises/exercise/${id}`,
+        exerciseOptions
+      );
+      console.log(":::", exerciseDetailData.name);
+      setExerciseDetail(exerciseDetailData);
 
-        const exerciseDetailData = await fetchData(
-          `${exerciseDbUrl}/exercises/exercise/${id}`,
-          exerciseOptions
-        );
-        setExerciseDetail(exerciseDetailData);
+      const exerciseVideoData = await fetchData(
+        `${youtubeSearchUrl}/search?query=${exerciseDetail?.name}`,
+        youtubeOptions
+      );
 
-        const exerciseVideoData = await fetchData(
-          `${youtubeSearchUrl}/search?query=${exerciseDetail.name}`,
-          youtubeOptions
-        );
-        setExerciseVideos(exerciseVideoData);
+      console.log("exerciseVideos 01", exerciseVideos);
+      setExerciseVideos(exerciseVideoData?.contents.slice(1));
+      console.log("exerciseVideos 02", exerciseVideos);
 
-        const targetMuscleExercisesData = await fetchData(
-          `${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`,
-          exerciseOptions
-        );
-        setTargetMuscleExercises(targetMuscleExercisesData);
+      const targetMuscleExercisesData = await fetchData(
+        `${exerciseDbUrl}/exercises/target/${exerciseDetailData?.target}`,
+        exerciseOptions
+      );
+      setTargetMuscleExercises(targetMuscleExercisesData);
 
-        const equipmentExercisesData = await fetchData(
-          `${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`,
-          exerciseOptions
-        );
-        setEquipmentExercises(equipmentExercisesData);
-      };
-      fetchExercisesData();
+      const equipmentExercisesData = await fetchData(
+        `${exerciseDbUrl}/exercises/equipment/${exerciseDetailData?.equipment}`,
+        exerciseOptions
+      );
+      setEquipmentExercises(equipmentExercisesData);
     } catch (error) {
       console.log(error);
     }
-  }, [id, exerciseDetail]);
+    // }, []);
+  }, [id, exerciseDetail.name,exerciseVideos.videos])
+
+  useEffect(() => {
+    fetchExercisesData();
+  }, [fetchExercisesData, exerciseDetail.name]);
 
   return (
     <Box>

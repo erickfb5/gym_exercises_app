@@ -1,15 +1,28 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 const ExerciseVideos = ({ exerciseVideos, name }) => {
-  console.log("exerciseVideos", exerciseVideos);
-  if (!exerciseVideos.length) return "Loading...";
+  const [newVideos, setNewVideos] = useState([]);
+  useEffect(() => {
+    const getExVideos = async () => {
+      const newVid = await exerciseVideos;
+      const data = await newVid;
+      // console.log("NEW VID:::", contents);
+      setNewVideos(data?.contents);
+      return data;
+    };
+    getExVideos();
+  }, [exerciseVideos]);
+
+  // console.log("<newVideos>", newVideos);
+  // if (!newVideos) return "Loading...";
   return (
     <Box sx={{ marginTop: { xs: "20px", lg: "200px" } }} p="20px">
       <Typography variant="h3" mb="33px">
-        Watch
+        Watch{" "}
         <span style={{ color: "#FF2625", textTransform: "capitalize" }}>
           {name}
-        </span>
+        </span>{" "}
         exercise videos
       </Typography>
       <Stack
@@ -18,7 +31,9 @@ const ExerciseVideos = ({ exerciseVideos, name }) => {
         flexWrap="wrap"
         sx={{ flexDirection: { lg: "row" }, gap: { xs: 0, lg: "110px" } }}
       >
-        {exerciseVideos?.slice(0, 3).map((item, index) => (
+        {newVideos?.slice(1).map((item, index) => (
+          // console.log(item,index)
+          // {exerciseVideos?.slice(1, 3).map((item, index) => (
           <a
             className="exercise-video"
             key={index}
@@ -33,7 +48,6 @@ const ExerciseVideos = ({ exerciseVideos, name }) => {
                 {item.video.title}
               </Typography>
             </Box>
-
 
             <Box>
               <Typography variant="h6" color="#000">

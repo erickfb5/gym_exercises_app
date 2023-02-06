@@ -1,6 +1,5 @@
 import { Stack, Typography } from "@mui/material";
 
-
 import ExtraDetail from "./ExtraDetail";
 
 const Detail = ({ exerciseDetail }) => {
@@ -21,7 +20,7 @@ const Detail = ({ exerciseDetail }) => {
           energy
         </Typography>
 
-       <ExtraDetail exerciseDetail={exerciseDetail} />
+        <ExtraDetail exerciseDetail={exerciseDetail} />
       </Stack>
     </Stack>
   );

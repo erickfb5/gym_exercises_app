@@ -6,6 +6,7 @@ import { HeroBanner, Exercises, SearchExercises } from "../components";
 const Home = () => {
   const [bodyPart, setBodyPart] = useState("all");
   const [exercises, setExercises] = useState([]);
+  console.log('HOME:::', exercises)
 
   return (
     <Box>

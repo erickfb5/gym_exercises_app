@@ -1,12 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 
-import {
-  Detail,
-  ExerciseVideos,
-  HorizontalScrollBar,
-  Loader,
-  SimilarExercises,
-} from "../components/";
+import { HorizontalScrollBar, Loader } from "../components/";
 
 const SimilarExercises = ({ targetMuscleExercises, equipmentExercises }) => {
   return (
